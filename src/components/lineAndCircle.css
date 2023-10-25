@@ -1,0 +1,19 @@
+.lineAndcircle {
+    padding: 4px;
+    padding-top: 8px;
+    font-size: 14px;
+    display: inline-block;
+    border-bottom: 1px #6e81ef solid;
+    color: #eee;
+    margin-left: 8px;
+    position: relative;
+}
+.lineAndcircle-circle {
+    position: absolute;
+    right: -3px;
+    bottom: -3px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #2CF7FE;
+}
