@@ -18,8 +18,7 @@ onUnmounted(() => {
 })
 //数据
 let xData = ['01', '02', '03', '04', '05', '06', '07', '08']
-let y1Data = [60, 22, 33, 1, 44, 4, 6, 34]
-let y2Data = [23, 2, 3, 13, 24, 14, 6, 4]
+let y1Data = [6, 2, 3, 1, 4, 4, 6, 3]
 
 //echarts
 let myChart: any = null
@@ -47,24 +46,32 @@ let initEcharts = () => {
                 textStyle: {
                     fontSize: 12,
                 },
-            },
-            legend: {
-                show: true,
-                // icon: "rect",
-                right: 20,
-                itemWidth: 10,
-                itemHeight: 6,
-                data: ["线1", '线2'],
-                textStyle: {
-                    color: ["#19a3df", "#d5b00a", "#3fb594", "#db6c72", "#585eaa", "#d5b00a", "#3fb594", '#db6c72'],
-                    fontSize: 10
+                formatter: function (params: any) {
+                    var relVal = params[0].name;
+                    for (var i = 0, l = params.length; i < l; i++) {
+                        relVal +=
+                            "<br/>" + params[i].marker + params[i].seriesName +'  '+ params[i].value.toFixed(3) + "A";
+                    }
+                    return relVal;
                 }
             },
+            // legend: {
+            //     show: true,
+            //     // icon: "rect",
+            //     right: 20,
+            //     itemWidth: 10,
+            //     itemHeight: 6,
+            //     data: ["线1", '线2'],
+            //     textStyle: {
+            //         color: ["#19a3df", "#d5b00a", "#3fb594", "#db6c72", "#585eaa", "#d5b00a", "#3fb594", '#db6c72'],
+            //         fontSize: 10
+            //     }
+            // },
             grid: {
                 top: "12%",
                 bottom: '18%',
                 left: '8%',
-                right: '0%'
+                right: '3%'
             },
             xAxis: {
                 data: xData,
@@ -76,10 +83,10 @@ let initEcharts = () => {
                 axisLabel: {
                     interval: "auto",
                     // formatter: function (value: any) {
-                    //     return value.slice(5, 10)
+                    //     return value.slice(1,2)
                     // },
                     fontSize: 9,
-                    color: '#fff'
+                    color: '#a6bde9'
                 },
             },
             yAxis: {
@@ -89,12 +96,12 @@ let initEcharts = () => {
                 }, 
                 axisLabel: {
                     fontSize: 9,
-                    color: '#fff'
+                    color: '#a6bde9'
                 },
             },
             series: [
                 {
-                    name: '线1',
+                    name: '电流',
                     data: y1Data,
                     type: "line",
                     symbol: "circle",
@@ -102,7 +109,6 @@ let initEcharts = () => {
                     showSymbol: false,
                     zlevel: 3,
                     itemStyle: {
-
                         //圆点颜色
                         color: colors[0][0],
                         // borderColor: "#a3c8d8",
@@ -138,53 +144,7 @@ let initEcharts = () => {
                             ),
                         },
                     },
-                },
-                {
-                    name: '线2',
-                    data: y2Data,
-                    type: "line",
-                    symbol: "circle",
-                    symbolSize: 6,
-                    showSymbol: false,
-                    zlevel: 3,
-                    itemStyle: {
-
-                        //圆点颜色
-                        color: colors[1][0],
-                        // borderColor: "#a3c8d8",
-                    },
-                    lineStyle: {
-                        normal: {
-                            width: 2,
-                            //线条颜色
-                            color: colors[1][0],
-                        },
-                    },
-                    smooth: false,
-
-                    //区域颜色
-                    areaStyle: {
-                        normal: {
-                            color: new echarts.graphic.LinearGradient(
-                                0,
-                                0,
-                                0,
-                                1,
-                                [
-                                    {
-                                        offset: 0,
-                                        color: colors[1][1],
-                                    },
-                                    {
-                                        offset: 0.9,
-                                        color: colors[1][2],
-                                    },
-                                ],
-                                false
-                            ),
-                        },
-                    },
-                },
+                }
             ]
         }
     })

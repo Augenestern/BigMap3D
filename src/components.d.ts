@@ -7,9 +7,13 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    Camera: typeof import('./components/mainMid/camera.vue')['default']
+    Cesium: typeof import('./components/mainMid/cesium.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElDialog: typeof import('element-plus/es')['ElDialog']
     ElIcon: typeof import('element-plus/es')['ElIcon']
+    ElTabPane: typeof import('element-plus/es')['ElTabPane']
+    ElTabs: typeof import('element-plus/es')['ElTabs']
     HelloWorld: typeof import('./components/HelloWorld.vue')['default']
     Left1: typeof import('./components/mainLeft/left1.vue')['default']
     Left2: typeof import('./components/mainLeft/left2.vue')['default']
@@ -27,5 +31,6 @@ declare module 'vue' {
     Right4: typeof import('./components/mainRight/right4.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Threejs: typeof import('./components/mainMid/threejs.vue')['default']
   }
 }

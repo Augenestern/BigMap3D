@@ -14,6 +14,14 @@ const routes: Array<RouteRecordRaw> = [
     path: "/map",
     component: () => import("@/components/mainMid/mapCopy.vue"),
   },
+  {
+    path: "/threejs",
+    component: () => import("@/components/mainMid/threejs.vue"),
+  },
+  {
+    path: "/camera",
+    component: () => import("@/components/mainMid/camera.vue"),
+  },
 ];
 // 1.返回一个 router 实列，为函数，里面有配置项（对象） history
 const router = createRouter({

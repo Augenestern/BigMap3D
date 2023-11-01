@@ -155,22 +155,50 @@ const initLoca = (AMap: any) => {
         data: ydtsJson
     })
 
-    // loca.ambLight = {
-    //       intensity: 0.3,
-    //       color: '#fff',
-    //   };
-    //   loca.dirLight = {
-    //       intensity: 0.6,
-    //       color: '#fff',
-    //       target: [0, 0, 0],
-    //       position: [0, -1, 1],
-    //   };
-    //   loca.pointLight = {
-    //       color: 'rgb(100,100,100)',
-    //       position: [120.24289, 30.341335, 20000],
-    //       intensity: 3,
-    //       distance: 50000,
-    //   };
+    // var geoz = new window.Loca.GeoJSONSource({
+    //     data: {
+    //         "type": "FeatureCollection",
+    //         "name": "义东碳素工厂",
+    //         "features": [{
+    //             "type": "Feature",
+    //             "properties": {
+    //                 // "name": "烟囱",
+    //                 "radius": 100,
+    //                 "height": 300,
+    //                 "sideNumber": 32
+    //             },
+    //             "geometry": {
+    //                 "type": "Point",
+    //                 "coordinates": [
+    //                     114.584715,
+    //                     36.393644
+    //                 ]
+    //             }
+    //         }]
+    //     }
+    // })
+    // // 设置图层
+    // var pz = new window.Loca.PrismLayer({
+    //     zIndex: 120,
+    //     opacity: 1,
+    //     shininess: 10,
+    //     hasSide: true,
+    // });
+    // pz.setSource(geoz);
+    // //设置样式
+    // pz.setStyle({
+    //     radius: 20,
+    //     sideNumber: 32,
+    //     topColor: '#759BAD',
+    //     sideTopColor: '#759BAD',
+    //     sideBottomColor: '#759BAD',
+    //     // 文字标注配置
+    //     // label: {
+    //     //     text: {
+    //     //         content: (_index: any, feat: any) => feat.properties.name
+    //     //     }
+    //     // },
+    // });
 
     //设置图层
     var pl = new window.Loca.PolygonLayer({
@@ -180,16 +208,15 @@ const initLoca = (AMap: any) => {
         hasSide: true,
     });
     pl.setSource(geo);
-
     //设置样式
     pl.setStyle({
         topColor: 'rgb(238, 237, 237)',
         sideTopColor: '#7CE7FD',
         sideBottomColor: 'blue',
-        height: (_index: any, feature: any) => {
-            return feature.properties.height
-        },
-        altitude: 0,
+        // height: (_index: any, feature: any) => {
+        //     return feature.properties.height
+        // },
+        // altitude: 0,
     });
 
     let textTime: any
@@ -251,6 +278,19 @@ const initLoca = (AMap: any) => {
                 },
                 altitude: 0,
             });
+            // pz.setStyle({
+            //     radius: 20,
+            //     sideNumber: 32,
+            //     topColor: '#759BAD',
+            //     sideTopColor: '#759BAD',
+            //     sideBottomColor: '#759BAD',
+            //     // 文字标注配置
+            //     // label: {
+            //     //     text: {
+            //     //         content: (_index: any, feat: any) => feat.properties.name
+            //     //     }
+            //     // },
+            // });
         }
     }
 
@@ -282,15 +322,16 @@ const initLoca = (AMap: any) => {
     map.on('mousedown', () => {
         cancelAnimationFrame(requestId);
         map.off('mousemove', handleMouseMove)
-        console.log('mapmousedown');
+        // console.log('mapmousedown');
     })
     map.on('mouseup', () => {
         animateMap(map.getRotation());
         map.on('mousemove', handleMouseMove)
-        console.log('mapmouseup');
+        // console.log('mapmouseup');
     })
     map.on('mousemove', handleMouseMove)
     loca.add(pl);
+    // loca.add(pz)
     map.on('click', (e: any) => {
         var feat = pl.queryFeature(e.pixel.toArray());
         if (feat) { clickMap() }
@@ -298,16 +339,47 @@ const initLoca = (AMap: any) => {
 
     // 设置点标记
     const initMarker = (AMap: any) => {
-        console.log(ydtsJson.features.length);
+        // console.log(ydtsJson.features.length);
         for (let i = 0; i < ydtsJson.features.length; i++) {
-            console.log(ydtsJson.features[i].properties.name);
-            console.log(ydtsJson.features[i].properties.thisCenter);
+            // console.log(ydtsJson.features[i].properties.name);
+            // console.log(ydtsJson.features[i].properties.thisCenter);
             let lsname = ydtsJson.features[i].properties.name
-            let content = "<div style='pointer-events:none;white-space: nowrap;padding:5px 10px;margin-bottom:1rem; border-radius:.25rem; background-color:rgba(0,0,0,0.5);border-width:0;box-shadow:0 2px 6px 0 rgba(255, 255, 255, .3);text-align:center;font-size:16px;color:#fff;'>" + lsname + "</div>"
+            // let content = `<div class="info-warp-youzu">
+            //                 <div class="info-warp-youzu-title">
+            //                 <span>${lsname}</span>
+            //                 </div>
+            //                 <div class="info-warp-youzu-body" id="youzuVOC">
+            //                 </div>
+            //             </div>
+            //             <div class="GreenStatus13"></div>
+            //             <div class='info-line-youzu'></div>
+            //             <div class='info-line-youzu1'></div>`
+            let content = `<div class="info-warp-youzu"
+                                style="width:auto;
+                                       white-space: nowrap;
+                                       height:auto;
+                                       padding:5px 10px;
+                                       font-size:12px">
+                            <span>${lsname}</span>
+                        </div>
+                        <div class="GreenStatus13"></div>
+                        <div class='info-line-youzu'></div>
+                        <div class='info-line-youzu1'></div>`
+            // let content = `<div style='pointer-events:none; 
+            //                             white-space: nowrap;
+            //                             padding:5px 10px;
+            //                             margin-bottom:1rem; 
+            //                             border-radius:.25rem; 
+            //                             background-color:rgba(0,0,0,0.5);
+            //                             border-width:0;
+            //                             box-shadow:0 2px 6px 0 rgba(255, 255, 255, .3);
+            //                             text-align:center;font-size:16px;
+            //                             color:#fff;'>${lsname}
+            //                 </div>`
             markers[i] = new AMap.Marker({
                 content: content,  // 自定义点标记覆盖物内容
                 position: [ydtsJson.features[i].properties.thisCenter[0], ydtsJson.features[i].properties.thisCenter[1], ydtsJson.features[i].properties.height], // 基点位置
-                offset: new AMap.Pixel(-30, -42) // 相对于基点的偏移位置
+                // offset: new AMap.Pixel(-30, -42) // 相对于基点的偏移位置
             });
             markers[i].on('click', () => {
                 clickMapMarker(lsname)
@@ -329,12 +401,12 @@ const initLoca = (AMap: any) => {
 //点击函数
 const clickMap = () => {
     dialogVisible.value = true
-    console.log(houseNameSign.value)
+    // console.log(houseNameSign.value)
 }
 const clickMapMarker = (lsname: any) => {
     houseNameSign.value = lsname
     dialogVisible.value = true
-    console.log(houseNameSign.value)
+    // console.log(houseNameSign.value)
 }
 
 
@@ -369,6 +441,8 @@ onUnmounted(() => {
 </script>
 
 <style lang="less" scoped>
+@import './label.less';
+
 #container {
     width: 100%;
     height: 100%;

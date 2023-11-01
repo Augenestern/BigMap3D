@@ -3,7 +3,7 @@
     <div class="header">
       <div class="header-left">
         <div class="lineAndcircle">
-          <span>&nbsp&nbsp平台上线<span style="color: #2CF7FE; font-size: 22px;">XX</span>天</span>
+          <span>&nbsp&nbsp平台上线<span style="color: #2CF7FE; font-size: 22px;">&nbsp{{ countTimeDay }}&nbsp</span>天</span>
           <span class="lineAndcircle-circle"></span>
         </div>
       </div>
@@ -39,6 +39,7 @@
       <div class="main-mid">
         <BorderBox12 class="main-map mid1">
           <mid1></mid1>
+          <!-- <threejs></threejs> -->
         </BorderBox12>
         <BorderBox12 class="main-box mid2">
           <mid2></mid2>
@@ -67,7 +68,9 @@ import left1 from '@/components/mainLeft/left1.vue'
 import left2 from '@/components/mainLeft/left2.vue'
 import left3 from '@/components/mainLeft/left3.vue'
 import left4 from '@/components/mainLeft/left4.vue'
-import mid1 from '@/components/mainMid/mid1.vue'
+// import mid1 from '@/components/mainMid/mid1.vue'
+// import cesium from '@/components/mainMid/cesium.vue'
+// import threejs from '@/components/mainMid/threejs.vue'
 import mid2 from '@/components/mainMid/mid2.vue'
 import right1 from '@/components/mainRight/right1.vue'
 import right2 from '@/components/mainRight/right2.vue'
@@ -118,7 +121,17 @@ const fullScreen = () => {
     document.msExitFullscreen();
   }
 }
+
+let countTimeDay: any=ref()
+const timeCount = () => {
+  let futruetime = new Date("2023/10/31").getTime();
+  let nowtime = new Date().getTime();
+  let msec = nowtime - futruetime;
+  let time: any = msec / 1000; // 毫秒/1000
+  countTimeDay.value = parseInt(time / 86400); // 天  24*60*60*1000
+}
 onMounted(() => {
+  timeCount()
 })
 onUnmounted(() => {
 })

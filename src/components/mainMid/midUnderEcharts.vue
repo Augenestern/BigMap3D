@@ -2,29 +2,37 @@
     <div style="width: 100%;height: 100%;position: relative;">
         <div class="echarts" ref="midEcharts">
         </div>
-        <span class="echTitle">123</span>
+        <span class="echTitle">{{ chartName[props.indexSign] }}</span>
     </div>
 </template>
 
 <script setup lang="ts">
 import * as echarts from 'echarts'
-const props = defineProps(['echData','indexSign'])
-onMounted(() => {
-    initEcharts()
-    console.log(props.echData);
+const props = defineProps(['echDatax', 'echDatay', 'indexSign'])
 
+onMounted(() => {
+    // console.log(props.echDatax, props.echDatay);
+    setTimeout(() => {
+        initEcharts()
+    }, 1000);
+    setInterval(()=>{
+        myChart.dispose()
+        myChart = echarts.init(midEcharts.value as any);
+        state.option && myChart.setOption(state.option);
+    },3000)
 })
 onUnmounted(() => {
+    myChart.dispose()
 })
 //数据
-// let xData = [1,2,3,4,5,6,7,8]
-// let yData = [2,22,33,1,44,4,66,34]
+
 
 //echarts
 let myChart: any = null
 let first = true
 let midEcharts: any = ref(null)
-
+let chartName: any = ref(['废气', '烟尘', '烟气流速', '烟气湿度', '烟气温度', '烟气压力', '一氧化氮', '氮氧化物', '氧含量', '二氧化硫'])
+let chartUnit: any = ref(['立方米/秒', '毫克/立方米', '米/秒', '%', '摄氏度', '千帕', '毫克/立方米', '毫克/立方米', '%', '毫克/立方米'])
 //颜色数组
 let colors: any = [
     ["#19a3df", "rgba(88,255,255,0.3)", 'rgba(88,255,255,0)'],
@@ -43,13 +51,14 @@ let colors: any = [
     ["#585eaa", "rgba(88, 94, 170,0.3)", "rgba(88, 94, 170,0)"],
 ]
 let index = props.indexSign;
+let state:any
 let initEcharts = () => {
     if (first) { myChart = echarts.init(midEcharts.value as any); }
     first = false
-    let state = reactive({
+    state = reactive({
         option: {
             grid: {
-                top: "0px",
+                top: "20px",
                 bottom: '20px',
                 left: '10px',
                 right: '10px'
@@ -85,14 +94,14 @@ let initEcharts = () => {
                 //         },
                 //     },
                 // },
-                // formatter: function (params: any) {
-                //     var relVal = params[0].name;
-                //     for (var i = 0, l = params.length; i < l; i++) {
-                //         relVal +=
-                //             "<br/>" + params[i].marker + params[i].value + obj.unit;
-                //     }
-                //     return relVal;
-                // },
+                formatter: function (params: any) {
+                    var relVal = params[0].name;
+                    for (var i = 0, l = params.length; i < l; i++) {
+                        relVal +=
+                            "<br/>" + params[i].marker + params[i].value + chartUnit.value[props.indexSign];
+                    }
+                    return relVal;
+                },
             },
             xAxis: {
                 show: true,
@@ -102,7 +111,7 @@ let initEcharts = () => {
                 type: "category",
                 axisTick: { show: false },
                 boundaryGap: false,
-                // data: xData,
+                data: props.echDatax,
                 //设置轴线的属性
                 // axisLine: {
                 //     lineStyle: {
@@ -111,7 +120,7 @@ let initEcharts = () => {
                 // },
             },
             yAxis: {
-                // data: yData,
+
                 show: false,
                 boundaryGap: false,
                 type: "value",
@@ -144,14 +153,14 @@ let initEcharts = () => {
             },
             series: [
                 {
-                    data: props.echData,
+                    data: props.echDatay,
+                    // data: props.echData,
                     type: "line",
                     symbol: "circle",
                     symbolSize: 6,
                     showSymbol: false,
                     zlevel: 3,
                     itemStyle: {
-
                         //圆点颜色
                         color: colors[index][0],
                         // borderColor: "#a3c8d8",
@@ -165,7 +174,7 @@ let initEcharts = () => {
                         },
                     },
                     smooth: false,
-                    
+
                     //区域颜色
                     areaStyle: {
                         normal: {
@@ -211,6 +220,7 @@ let initEcharts = () => {
     position: absolute;
     top: 0;
     left: 10px;
-    color: white;
+    color: #a6bde9;
+    font-size: 12px;
 }
 </style>

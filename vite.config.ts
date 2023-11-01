@@ -15,10 +15,12 @@ import AutoImport from "unplugin-auto-import/vite"
 import Components from 'unplugin-vue-components/vite';
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
+import cesium from 'vite-plugin-cesium';
 // https://vitejs.dev/config/
 export default defineConfig({
 	plugins: [
 		vue(),
+		cesium(),
 		AutoImport({
 			//安装两行后你会发现在组件中不用再导入ref，reactive等
 			imports: ['vue', 'vue-router'],

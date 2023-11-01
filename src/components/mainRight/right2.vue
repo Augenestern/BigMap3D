@@ -18,7 +18,7 @@ onUnmounted(() => {
 //数据
 let xData = ['01', '02', '03', '04', '05', '06', '07', '08']
 let y1Data = [60, 22, 33, 1, 44, 4, 6, 34]
-let y2Data = [23, 2, 3, 13, 24, 14, 6, 4]
+// let y2Data = [23, 2, 3, 13, 24, 14, 6, 4]
 
 //echarts
 let myChart: any = null
@@ -48,7 +48,7 @@ let initEcharts = () => {
                 },
             },
             legend: {
-                show: true,
+                show: false,
                 // icon: "rect",
                 right: 20,
                 itemWidth: 10,
@@ -63,7 +63,7 @@ let initEcharts = () => {
                 top: "12%",
                 bottom: '18%',
                 left: '8%',
-                right: '0%'
+                right: '6%'
             },
             xAxis: {
                 data: xData,
@@ -78,7 +78,7 @@ let initEcharts = () => {
                     //     return value.slice(5, 10)
                     // },
                     fontSize: 9,
-                    color: '#fff'
+                    color: '#a6bde9'
                 },
             },
             yAxis: {
@@ -88,7 +88,7 @@ let initEcharts = () => {
                 }, 
                 axisLabel: {
                     fontSize: 9,
-                    color: '#fff'
+                    color: '#a6bde9'
                 },
             },
             series: [
@@ -138,52 +138,52 @@ let initEcharts = () => {
                         },
                     },
                 },
-                {
-                    name: '线2',
-                    data: y2Data,
-                    type: "line",
-                    symbol: "circle",
-                    symbolSize: 6,
-                    showSymbol: false,
-                    zlevel: 3,
-                    itemStyle: {
+                // {
+                //     name: '线2',
+                //     data: y2Data,
+                //     type: "line",
+                //     symbol: "circle",
+                //     symbolSize: 6,
+                //     showSymbol: false,
+                //     zlevel: 3,
+                //     itemStyle: {
 
-                        //圆点颜色
-                        color: colors[1][0],
-                        // borderColor: "#a3c8d8",
-                    },
-                    lineStyle: {
-                        normal: {
-                            width: 2,
-                            //线条颜色
-                            color: colors[1][0],
-                        },
-                    },
-                    smooth: false,
+                //         //圆点颜色
+                //         color: colors[1][0],
+                //         // borderColor: "#a3c8d8",
+                //     },
+                //     lineStyle: {
+                //         normal: {
+                //             width: 2,
+                //             //线条颜色
+                //             color: colors[1][0],
+                //         },
+                //     },
+                //     smooth: false,
 
-                    //区域颜色
-                    areaStyle: {
-                        normal: {
-                            color: new echarts.graphic.LinearGradient(
-                                0,
-                                0,
-                                0,
-                                1,
-                                [
-                                    {
-                                        offset: 0,
-                                        color: colors[1][1],
-                                    },
-                                    {
-                                        offset: 0.9,
-                                        color: colors[1][2],
-                                    },
-                                ],
-                                false
-                            ),
-                        },
-                    },
-                },
+                //     //区域颜色
+                //     areaStyle: {
+                //         normal: {
+                //             color: new echarts.graphic.LinearGradient(
+                //                 0,
+                //                 0,
+                //                 0,
+                //                 1,
+                //                 [
+                //                     {
+                //                         offset: 0,
+                //                         color: colors[1][1],
+                //                     },
+                //                     {
+                //                         offset: 0.9,
+                //                         color: colors[1][2],
+                //                     },
+                //                 ],
+                //                 false
+                //             ),
+                //         },
+                //     },
+                // },
             ]
         }
     })
