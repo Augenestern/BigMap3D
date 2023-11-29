@@ -9,17 +9,19 @@ declare module 'vue' {
   export interface GlobalComponents {
     Camera: typeof import('./components/mainMid/camera.vue')['default']
     Cesium: typeof import('./components/mainMid/cesium.vue')['default']
+    EchartMap: typeof import('./components/mainMid/echartMap.vue')['default']
+    EchartTl: typeof import('./components/mainRight/echartsR1/echartTl.vue')['default']
+    EchartTx: typeof import('./components/mainRight/echartsR1/echartTx.vue')['default']
+    EhartCc: typeof import('./components/mainRight/echartsR1/ehartCc.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElDialog: typeof import('element-plus/es')['ElDialog']
     ElIcon: typeof import('element-plus/es')['ElIcon']
     ElTabPane: typeof import('element-plus/es')['ElTabPane']
     ElTabs: typeof import('element-plus/es')['ElTabs']
-    HelloWorld: typeof import('./components/HelloWorld.vue')['default']
     Left1: typeof import('./components/mainLeft/left1.vue')['default']
     Left2: typeof import('./components/mainLeft/left2.vue')['default']
     Left3: typeof import('./components/mainLeft/left3.vue')['default']
     Left4: typeof import('./components/mainLeft/left4.vue')['default']
-    MapContainer: typeof import('./components/mainMid/MapContainer.vue')['default']
     MapCopy: typeof import('./components/mainMid/mapCopy.vue')['default']
     Mid1: typeof import('./components/mainMid/mid1.vue')['default']
     Mid11: typeof import('./components/mainMid/mid11.vue')['default']
@@ -32,5 +34,6 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Threejs: typeof import('./components/mainMid/threejs.vue')['default']
+    ThreeShow: typeof import('./components/mainMid/threeShow.vue')['default']
   }
 }

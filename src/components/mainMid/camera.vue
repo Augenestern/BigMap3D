@@ -5,7 +5,6 @@
 </template>
 
 <script setup lang="ts">
-let player = new EZUI
 onMounted(() => {
 })
 onUnmounted(() => {

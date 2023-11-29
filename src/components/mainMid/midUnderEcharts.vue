@@ -11,7 +11,6 @@ import * as echarts from 'echarts'
 const props = defineProps(['echDatax', 'echDatay', 'indexSign'])
 
 onMounted(() => {
-    // console.log(props.echDatax, props.echDatay);
     setTimeout(() => {
         initEcharts()
     }, 1000);
@@ -19,7 +18,7 @@ onMounted(() => {
         myChart.dispose()
         myChart = echarts.init(midEcharts.value as any);
         state.option && myChart.setOption(state.option);
-    },3000)
+    },30000)
 })
 onUnmounted(() => {
     myChart.dispose()

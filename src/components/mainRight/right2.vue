@@ -10,15 +10,34 @@
 </template>
 <script setup lang="ts">
 import * as echarts from 'echarts'
+import { getEleData } from '../../api/environment/api'
+const getData = () => {
+    let params = {
+        sensorCode: "c2",
+        time: "60",
+        tfbool: "f",
+        currPage: "1",
+        pageSize: "24",
+    }
+    getEleData(params).then((res: any) => {
+        let resArr = res.data.data.data
+        for (let i = resArr.length - 1; i >= 0; i--) {
+            xData.value.push(resArr[i].createTime.slice(5, 16))
+            y1Data.value.push(resArr[i].DTUDataDetail[0].value)
+        }
+        initEcharts()
+    })
+
+}
+
 onMounted(() => {
-    initEcharts()
+    getData()
 })
 onUnmounted(() => {
 })
 //数据
-let xData = ['01', '02', '03', '04', '05', '06', '07', '08']
-let y1Data = [60, 22, 33, 1, 44, 4, 6, 34]
-// let y2Data = [23, 2, 3, 13, 24, 14, 6, 4]
+let xData :any= ref([])
+let y1Data:any = ref([])
 
 //echarts
 let myChart: any = null
@@ -46,6 +65,14 @@ let initEcharts = () => {
                 textStyle: {
                     fontSize: 12,
                 },
+                formatter: function (params: any) {
+                    var relVal = params[0].name;
+                    for (var i = 0, l = params.length; i < l; i++) {
+                        relVal +=
+                            "<br/>" + params[i].marker + params[i].seriesName + '  ' + Number(params[i].value).toFixed(3) + "A";
+                    }
+                    return relVal;
+                }
             },
             legend: {
                 show: false,
@@ -66,7 +93,7 @@ let initEcharts = () => {
                 right: '6%'
             },
             xAxis: {
-                data: xData,
+                data: xData.value,
                 type: "category",
                 boundaryGap: false,
                 axisTick: {
@@ -85,7 +112,7 @@ let initEcharts = () => {
                 type: 'value',
                 splitLine: {
                     show: false
-                }, 
+                },
                 axisLabel: {
                     fontSize: 9,
                     color: '#a6bde9'
@@ -93,8 +120,8 @@ let initEcharts = () => {
             },
             series: [
                 {
-                    name: '线1',
-                    data: y1Data,
+                    name: '电流',
+                    data: y1Data.value,
                     type: "line",
                     symbol: "circle",
                     symbolSize: 6,

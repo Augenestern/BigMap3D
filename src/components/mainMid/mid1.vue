@@ -63,6 +63,7 @@
 import AMapLoader from '@amap/amap-jsapi-loader';
 import img from "../../assets/图片9.png";
 import ydtsJson from '../../assets/ydtsJson.json'
+import hbJson from '../../assets/河北省.json'
 
 const router = new (useRouter as any)
 let houseNameSign: any = ref("");
@@ -147,11 +148,17 @@ const animateMap = (rotation: any) => {
 
 
 const initLoca = (AMap: any) => {
+    //在vite-env.d.ts中加
     loca = new window.Loca.Container({
         map,
     });
 
+    var geo1 = new window.Loca.GeoJSONSource({
+        data: hbJson
+        // data: ydtsJson
+    })
     var geo = new window.Loca.GeoJSONSource({
+        // data: hbJson
         data: ydtsJson
     })
 
@@ -201,14 +208,43 @@ const initLoca = (AMap: any) => {
     // });
 
     //设置图层
+    //大地图
+    var pl1 = new window.Loca.PolygonLayer({
+        zIndex: 120,
+        opacity: 1,
+        shininess: 10,
+        hasTop: false,
+        hasSide: true,
+        cullface:'none',
+        blockHide: false,
+        depth: false,
+    });
+    //工厂
     var pl = new window.Loca.PolygonLayer({
         zIndex: 120,
         opacity: 1,
         shininess: 10,
+        // hasTop: false,
         hasSide: true,
+        // cullface:'none',
+        // depth: false,
     });
+    pl1.setSource(geo1);
     pl.setSource(geo);
     //设置样式
+    pl1.setStyle({
+        // topColor: 'rgba(255,255,255,0)',
+        // sideTopColor: 'rgba(0,255,255,0)',
+        // sideBottomColor: 'blue',
+        topColor: 'rgb(238, 237, 237)',
+        sideTopColor: '#7CE7FD',
+        sideBottomColor: 'blue',
+        // height: (_index: any, feature: any) => {
+        //     return feature.properties.height
+        // },
+        altitude: 0,
+        height:10000
+    });
     pl.setStyle({
         topColor: 'rgb(238, 237, 237)',
         sideTopColor: '#7CE7FD',
@@ -217,6 +253,7 @@ const initLoca = (AMap: any) => {
         //     return feature.properties.height
         // },
         // altitude: 0,
+        // height:10000
     });
 
     let textTime: any
@@ -330,6 +367,7 @@ const initLoca = (AMap: any) => {
         // console.log('mapmouseup');
     })
     map.on('mousemove', handleMouseMove)
+    loca.add(pl1);
     loca.add(pl);
     // loca.add(pz)
     map.on('click', (e: any) => {
@@ -479,5 +517,7 @@ onUnmounted(() => {
     line-height: 15px;
     font-size: 18px;
     color: #fff;
+    // color:rgb(124, 232, 253);
 }
+
 </style>

@@ -19,8 +19,16 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/components/mainMid/threejs.vue"),
   },
   {
+    path: "/threeShow",
+    component: () => import("@/components/mainMid/threeShow.vue"),
+  },
+  {
     path: "/camera",
     component: () => import("@/components/mainMid/camera.vue"),
+  },
+  {
+    path: "/echartMap",
+    component: () => import("@/components/mainMid/echartMap.vue"),
   },
 ];
 // 1.返回一个 router 实列，为函数，里面有配置项（对象） history
@@ -32,7 +40,7 @@ const router = createRouter({
 
 router.beforeEach((to,from,next)=>{
   if(to.path === "/"){
-    next({path:"/login"})
+    next({path:"/home"})
   }else{
     next()
   }

@@ -58,7 +58,7 @@ const initData = () => {
         let resArr = res.data.data.data
         // console.log(resArr);
 
-        for (let i = 0; i < resArr.length; i++) {
+        for (let i = resArr.length - 1; i >= 0; i--) {
             let newArr = resArr[i][1].Value
             for (let index = 0; index < newArr.length; index++) {
                 if (newArr[index][0].Value == "二氧化硫Zs平均值") {
@@ -77,7 +77,7 @@ const initData = () => {
                 if (newArr[index][0].Value == "烟气压力平均值") {
                     echData6.value.push(newArr[index][1].Value)
                 }
-                if (newArr[index][0].Value =="烟气流速平均值") {
+                if (newArr[index][0].Value == "烟气流速平均值") {
                     echData3.value.push(newArr[index][1].Value)
                 }
                 if (newArr[index][0].Value == "废气平均值") {

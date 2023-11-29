@@ -56,22 +56,25 @@ const initSence = () => {
     var loader = new GLTFLoader();
     let model: any
     // const worldPosition = new THREE.Vector3();
-    loader.load('/src/assets/1/scene.gltf', function (gltf: any) {
+    loader.load('/public/1/scene.gltf', function (gltf: any) {
         model = gltf.scene;
+        let cssSign = true
         model.traverse((child: any) => {
             if (child.isMesh) {
                 child.castShadow = true;
                 child.receiveShadow = true;
-
                 child.name = '摩托'
-                // 添加CSS 3DSprite标签
-                let label3DSpritechild = tag3DSprite("摩托");//设置标签名称
-                let pos = new THREE.Vector3();
-                child.getWorldPosition(pos);//获取obj世界坐标、
-                // pos3.y += 1;
-                label3DSpritechild.position.copy(pos);//标签标注在obj世界坐标
-                label3DSpritechild.position.y += 1.2
-                scene.add(label3DSpritechild);//标签插入场景 
+                if (cssSign) {
+                    cssSign = false
+                    // 添加CSS 3DSprite标签
+                    let label3DSpritechild = tag3DSprite("摩托");//设置标签名称
+                    let pos = new THREE.Vector3();
+                    child.getWorldPosition(pos);//获取obj世界坐标、
+                    // pos3.y += 1;
+                    label3DSpritechild.position.copy(pos);//标签标注在obj世界坐标
+                    label3DSpritechild.position.y += 1.2
+                    scene.add(label3DSpritechild);//标签插入场景 
+                }
             }
         });
 
@@ -220,29 +223,62 @@ const initSence = () => {
     // 创建 Raycaster 对象
     const raycaster = new THREE.Raycaster();
     // 监听鼠标单击事件（mousedown 或者 touchstart）
-    window.addEventListener('click', onMouseDown, false);
-    function onMouseDown(event: any) {
+    window.addEventListener('click', onMouseClick, false);
+    window.addEventListener('mouseup', () => {
+        console.log('up');
+    }, false);
+    window.addEventListener('mousedown', () => {
+        console.log('down');
+        window.addEventListener('click', onMouseClick, false);
+    }, false);
+    window.addEventListener('mousemove', (event:any) => {
+        console.log('move');
+        window.removeEventListener('click', onMouseClick);
+
+        const mouse = new THREE.Vector2();
+        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+        raycaster.setFromCamera(mouse, camera);
+        const intersects = raycaster.intersectObjects(scene.children);
+        if (intersects.length > 0) {
+            for (let i = 0; i < intersects.length; i++) {
+                // console.log(intersects[i].object);
+                if (intersects[i].object instanceof THREE.Mesh) {
+                    if(intersects[i].object.name=='方块'){
+                        intersects[i].object.material.color.set('red')
+                    }else{
+                        cubecs.material.color.set('yellow')
+                    }
+                    break
+                }
+            }
+        }
+    }, false);
+    function onMouseClick(event: any) {
         // 获取当前鼠标位置
         const mouse = new THREE.Vector2();
         // 将浏览器坐标系下的鼠标位置转换为 Three.js 坐标系下的鼠标位置
         mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
         mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
         // 根据鼠标位置创建射线
         raycaster.setFromCamera(mouse, camera);
-
         // 获取所有与射线相交的物体
         const intersects = raycaster.intersectObjects(scene.children);
-
         // 如果有相交的物体
         if (intersects.length > 0) {
             // 处理点击事件的逻辑
             // intersects[0] 是距离摄像机最近的相交物体
-            console.log(intersects);
+            // console.log(intersects);
             for (let i = 0; i < intersects.length; i++) {
-                console.log(intersects[i].object);
+                // console.log(intersects[i].object);
                 if (intersects[i].object instanceof THREE.Mesh) {
-                    console.log(intersects[i].object.name);
+                    console.log(intersects[i].object);
+                    // intersects[i].object.material.color.set('red')
+                    ElMessage(
+                        {
+                            message: '点击了' + intersects[i].object.name,
+                            type: 'success',
+                        })
                     break
                 }
             }
@@ -254,7 +290,6 @@ const initSence = () => {
             // console.log(object.name);
         }
     }
-
     // const sprite = new THREE.Sprite();
     // sprite.center.set(0,0)
     // scene.add(sprite);
@@ -340,10 +375,20 @@ function tag3DSprite(name: any) {
     var div = document.createElement('div');
     div.innerHTML = name;
     Object.assign(div.style, {
-        color: 'red',
-        fontSize: '20px',
-        backgroundColor: 'white',
-        pointerEvents: 'none'
+        'padding': '5px 10px',
+        'margin-bottom': '1rem',
+        'border-radius': '.25rem',
+        'background-color': 'rgba(0,0,0,0.5)',
+        // 'width': '12rem',
+        'border-width': 0,
+        'box-shadow': '0 2px 6px 0 rgba(255, 255, 255, .3)',
+        'text-align': 'center',
+        'font-size': '16px',
+        'color': '#fff',
+        // color: 'red',
+        // fontSize: '20px',
+        // backgroundColor: 'white',
+        // pointerEvents: 'none'
     });
     //div元素包装为CSS3模型对象CSS3DSprite
     var label = new CSS3DSprite(div);

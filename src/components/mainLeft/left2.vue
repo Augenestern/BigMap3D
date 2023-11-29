@@ -11,7 +11,17 @@
 
 <script setup lang="ts">
 import * as echarts from 'echarts'
+import { getPieData } from '../../api/environment/api'
+const getData = () => {
+    let params = {
+        time: "30"
+    }
+    getPieData(params).then((res) => {
+        console.log(res);
+    })
+}
 onMounted(() => {
+    getData()
     initEcharts()
 })
 onUnmounted(() => {
@@ -20,19 +30,15 @@ onUnmounted(() => {
 let echData = ref([
     {
         value: 335,
-        name: 'A',
+        name: 'CEMS',
     },
     {
         value: 234,
-        name: 'B'
+        name: '氨逃逸'
     },
     {
         value: 1548,
-        name: 'C'
-    },
-    {
-        value: 1048,
-        name: 'D'
+        name: '治理'
     }
 ])
 
@@ -67,13 +73,13 @@ let initEcharts = () => {
                     color: "#eee",
                     fontSize: "10px"
                 },
-                left: '26%',
+                left: '22%',
                 top: '42%'
             },
             tooltip: {
                 trigger: 'item',
                 show: true,
-                formatter: (item:any) => {
+                formatter: (item: any) => {
                     let data = item.data;
                     if (!data.name) {
                         return "";
@@ -103,7 +109,7 @@ let initEcharts = () => {
                         show: true
                     },
                     radius: ['65%', '90%'],
-                    center: ["35%", "50%"]
+                    center: ["30%", "50%"]
                 }
             ]
         }
@@ -117,10 +123,12 @@ let initEcharts = () => {
 </script>
 <style lang="less" scoped>
 @import '../lineAndCircle.css';
-.nBox{
+
+.nBox {
     width: 100%;
     height: 100%;
 }
+
 .echarts {
     position: absolute;
     margin-top: 3%;
